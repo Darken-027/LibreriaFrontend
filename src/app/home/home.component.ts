@@ -3,11 +3,12 @@ import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { Book } from '../models/book';
 import { BookService } from '../services/book.service';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [ButtonModule, CardModule],
+  imports: [ButtonModule, CardModule, RouterModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
@@ -17,5 +18,12 @@ export class HomeComponent {
 
   constructor(private bookService:BookService) {}
 
+  ngOnInit(): void {
 
+  }
+  getALlBooks(){
+    this.bookService.getBooks().subscribe(data=>{
+      this.books = data;
+    });
+  }
 }
