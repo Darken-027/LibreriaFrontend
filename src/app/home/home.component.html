@@ -16,7 +16,9 @@
     <ng-template pTemplate="footer">
         <div class="flex gap-3 mt-1">
             <p-button label="Borrar" severity="secondary" class="w-full" styleClass="w-full" />
-            <p-button label="Editar" class="w-full" styleClass="w-full" />
+            <a routerLink="book-form/{{book.id}}" class="p-button font-bold">
+                Editar
+            </a>
         </div>
     </ng-template>
 </p-card>

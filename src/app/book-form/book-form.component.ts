@@ -88,6 +88,7 @@ export class BookFormComponent {
       });
       return
     }
+    this.isSaveInProgress = true;
     this.bookService.createBook(this.formBody.value).subscribe({
       next:()=>{
         this.messageService.add({
@@ -95,9 +96,11 @@ export class BookFormComponent {
           summary: 'Guardado',
           detail: 'Libro guardado correctamente',
         });
+        this.isSaveInProgress = false;
         this.router.navigateByUrl('/')
       },
       error:()=>{
+        this.isSaveInProgress = false;
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
@@ -119,6 +122,7 @@ export class BookFormComponent {
       });
       return
     }
+    this.isSaveInProgress = true;
     this.bookService.updateBook(this.formBody.value).subscribe({
       next:()=>{
         this.messageService.add({
@@ -126,9 +130,11 @@ export class BookFormComponent {
           summary: 'Guardado',
           detail: 'Libro actualizado correctamente',
         });
+        this.isSaveInProgress = false;
         this.router.navigateByUrl('/')
       },
       error:()=>{
+        this.isSaveInProgress = false;
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
