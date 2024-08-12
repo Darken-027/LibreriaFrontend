@@ -9,13 +9,28 @@ import {
 import { BookService } from '../services/book.service';
 import { ButtonModule } from 'primeng/button';
 import { ToastModule } from 'primeng/toast';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { MessageService } from 'primeng/api';
+import { InputTextModule } from 'primeng/inputtext';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { CardModule } from 'primeng/card';
+
+
 
 @Component({
   selector: 'app-book-form',
   standalone: true,
-  imports: [ReactiveFormsModule, FormsModule, ButtonModule, ToastModule],
+  imports: [
+    ReactiveFormsModule,
+    FormsModule,
+    ButtonModule,
+    ToastModule,
+    RouterModule,
+    InputTextModule,
+    InputNumberModule,
+    CardModule
+
+  ],
   templateUrl: './book-form.component.html',
   styleUrl: './book-form.component.scss',
 })
@@ -28,7 +43,8 @@ export class BookFormComponent {
     private fb: FormBuilder,
     private bookService: BookService,
     private activatedRoute: ActivatedRoute,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private router: Router
   ) {
     this.formBody = this.fb.group({
       id: [null],
@@ -43,6 +59,7 @@ export class BookFormComponent {
     let id = this.activatedRoute.snapshot.paramMap.get('id');
     if (id !== 'new') {
       this.edit = true;
+      this.getBookById(+id!)
     }
   }
 
@@ -51,9 +68,73 @@ export class BookFormComponent {
       next: (foundBook) => {
         this.formBody.patchValue(foundBook);
       },
-      error:()=>{
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No encontrado' });
-      }
+      error: () => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'No encontrado',
+        });
+        this.router.navigateByUrl('/')
+      },
     });
+  }
+
+  createBook(){
+    if(this.formBody.invalid){
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Revise los campos e intente nuevamente',
+      });
+      return
+    }
+    this.bookService.createBook(this.formBody.value).subscribe({
+      next:()=>{
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Guardado',
+          detail: 'Libro guardado correctamente',
+        });
+        this.router.navigateByUrl('/')
+      },
+      error:()=>{
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Revise los campos e intente nuevamente',
+        });
+      }
+    })
+  }
+
+
+  //UPDATE
+
+  updateBook(){
+    if(this.formBody.invalid){
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Revise los campos e intente nuevamente',
+      });
+      return
+    }
+    this.bookService.updateBook(this.formBody.value).subscribe({
+      next:()=>{
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Guardado',
+          detail: 'Libro actualizado correctamente',
+        });
+        this.router.navigateByUrl('/')
+      },
+      error:()=>{
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Revise los campos e intente nuevamente',
+        });
+      }
+    })
   }
 }
