@@ -7,13 +7,13 @@ import {
   Validators,
 } from '@angular/forms';
 import { BookService } from '../services/book.service';
-import { ButtonModule } from 'primeng/button';
 import { ToastModule } from 'primeng/toast';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { CardModule } from 'primeng/card';
+import { ButtonModule } from 'primeng/button';
 
 
 
@@ -23,12 +23,12 @@ import { CardModule } from 'primeng/card';
   imports: [
     ReactiveFormsModule,
     FormsModule,
-    ButtonModule,
     ToastModule,
     RouterModule,
     InputTextModule,
     InputNumberModule,
-    CardModule
+    CardModule,
+    ButtonModule
 
   ],
   templateUrl: './book-form.component.html',

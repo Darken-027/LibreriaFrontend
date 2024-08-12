@@ -35,7 +35,7 @@ export class HomeComponent {
       next:()=>{
         this.messageService.add({
           severity: 'success',
-          summary: 'Guardado',
+          summary: 'Correcto',
           detail: 'Libro eliminado',
         });
         this.isDeleteInProgress = false;
