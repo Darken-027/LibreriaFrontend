@@ -1,18 +1,26 @@
 <p-toast />
 <div class="flex justify-content-center align-items-center min-h-screen w-full">
-
   <p-card header="Formulario Libro" class="w-10">
-    <div class="flex flex-column gap-2">
-      <div class="field">
-        <label for="firstname1">Firstname</label>
-        <input id="firstname1" type="text"
-          class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+    <form [formGroup]="formBody" (ngSubmit)="edit?updateBook():createBook()" class="flex flex-column gap-2">
+      <div class="field flex flex-column gap-1">
+        <label for="firstname1">Titulo</label>
+        <input type="text" pInputText formControlName="title" />
       </div>
-      <div class="field">
-        <label for="lastname1">Lastname</label>
-        <input id="lastname1" type="text"
-          class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+      <div class="field flex flex-column gap-1">
+        <label for="author">Autor</label>
+        <input type="text" pInputText formControlName="author" />
       </div>
-    </div>
+      <div class="field flex flex-column gap-1">
+        <label for="pages">Paginas</label>
+        <p-inputNumber inputId="integeronly" formControlName="pages" />
+      </div>
+      <div class="field flex flex-column gap-1">
+        <label for="pricd">Precio</label>
+        <p-inputNumber inputId="integeronly" formControlName="price" />
+      </div>
+      <div class="flex gap-2">
+        <p-button label="Guardar" />
+      </div>
+    </form>
   </p-card>
 </div>
