@@ -14,6 +14,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
+import { FileSelectEvent } from 'primeng/fileupload';
 
 
 
@@ -38,6 +39,7 @@ export class BookFormComponent {
   formBody!: FormGroup;
   isSaveInProgress: boolean = false;
   edit: boolean = false;
+  SelectedFile:File | null = null
 
   constructor(
     private fb: FormBuilder,
@@ -61,6 +63,10 @@ export class BookFormComponent {
       this.edit = true;
       this.getBookById(+id!)
     }
+  }
+
+  onFileSelected(event:FileSelectEvent){
+    this.SelectedFile = event.files[0];
   }
 
   getBookById(id: number) {
@@ -88,8 +94,16 @@ export class BookFormComponent {
       });
       return
     }
+    if(!this.SelectedFile){
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Seleccione una imagen e intente nuevamente',
+      });
+      return
+    }
     this.isSaveInProgress = true;
-    this.bookService.createBook(this.formBody.value).subscribe({
+    this.bookService.createBook(this.formBody.value, this.SelectedFile).subscribe({
       next:()=>{
         this.messageService.add({
           severity: 'success',
