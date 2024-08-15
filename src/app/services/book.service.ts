@@ -22,8 +22,12 @@ export class BookService {
   }
 
 
-  createBook(book: Book): Observable<Book> {
-    return this.http.post<Book>(this.apiUrl, book)
+  createBook(book: Book, image:File): Observable<Book> {
+    const formData = new FormData();
+    formData.append('book', JSON.stringify(book));
+    formData.append('file', image);
+
+    return this.http.post<Book>(this.apiUrl, formData)
   }
 
   updateBook(book: Book) {
