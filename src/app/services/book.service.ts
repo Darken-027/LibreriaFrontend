@@ -37,4 +37,11 @@ export class BookService {
   deleteBook(id: number) {
     return this.http.delete(`${this.apiUrl}/${id}`);
   }
+
+  updateBookImage(id: number, image:File): Observable<Book> {
+    const formData = new FormData();
+    formData.append('file', image);
+    return this.http.put<Book>(`${this.apiUrl}/${id}/image`,formData);
+  }
+
 }
