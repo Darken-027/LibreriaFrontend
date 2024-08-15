@@ -16,8 +16,6 @@ import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 import { FileSelectEvent } from 'primeng/fileupload';
 
-
-
 @Component({
   selector: 'app-book-form',
   standalone: true,
@@ -29,8 +27,7 @@ import { FileSelectEvent } from 'primeng/fileupload';
     InputTextModule,
     InputNumberModule,
     CardModule,
-    ButtonModule
-
+    ButtonModule,
   ],
   templateUrl: './book-form.component.html',
   styleUrl: './book-form.component.scss',
@@ -39,7 +36,7 @@ export class BookFormComponent {
   formBody!: FormGroup;
   isSaveInProgress: boolean = false;
   edit: boolean = false;
-  SelectedFile:File | null = null
+  SelectedFile: File | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -61,11 +58,11 @@ export class BookFormComponent {
     let id = this.activatedRoute.snapshot.paramMap.get('id');
     if (id !== 'new') {
       this.edit = true;
-      this.getBookById(+id!)
+      this.getBookById(+id!);
     }
   }
 
-  onFileSelected(event:FileSelectEvent){
+  onFileSelected(event: FileSelectEvent) {
     this.SelectedFile = event.files[0];
   }
 
@@ -80,81 +77,112 @@ export class BookFormComponent {
           summary: 'Error',
           detail: 'No encontrado',
         });
-        this.router.navigateByUrl('/')
+        this.router.navigateByUrl('/');
       },
     });
   }
 
-  createBook(){
-    if(this.formBody.invalid){
+  createBook() {
+    if (this.formBody.invalid) {
       this.messageService.add({
         severity: 'error',
         summary: 'Error',
         detail: 'Revise los campos e intente nuevamente',
       });
-      return
+      return;
     }
-    if(!this.SelectedFile){
+    if (!this.SelectedFile) {
       this.messageService.add({
         severity: 'error',
         summary: 'Error',
         detail: 'Seleccione una imagen e intente nuevamente',
       });
-      return
+      return;
     }
     this.isSaveInProgress = true;
-    this.bookService.createBook(this.formBody.value, this.SelectedFile).subscribe({
-      next:()=>{
+    this.bookService
+      .createBook(this.formBody.value, this.SelectedFile)
+      .subscribe({
+        next: () => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Guardado',
+            detail: 'Libro guardado correctamente',
+          });
+          this.isSaveInProgress = false;
+          this.router.navigateByUrl('/');
+        },
+        error: () => {
+          this.isSaveInProgress = false;
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Revise los campos e intente nuevamente',
+          });
+        },
+      });
+  }
+
+  changeImage(id: number) {
+    if (!this.SelectedFile) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Seleccione una imagen e intente nuevamente',
+      });
+      return;
+    }
+    this.bookService.updateBookImage(id, this.SelectedFile).subscribe({
+      next: () => {
         this.messageService.add({
           severity: 'success',
           summary: 'Guardado',
           detail: 'Libro guardado correctamente',
         });
         this.isSaveInProgress = false;
-        this.router.navigateByUrl('/')
+        this.router.navigateByUrl('/');
       },
-      error:()=>{
+      error: () => {
         this.isSaveInProgress = false;
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
-          detail: 'Revise los campos e intente nuevamente',
+          detail: 'Revise el archivo seleccionado',
         });
-      }
-    })
+      },
+    });
   }
-
 
   //UPDATE
 
-  updateBook(){
-    if(this.formBody.invalid){
+  updateBook() {
+    if (this.formBody.invalid) {
       this.messageService.add({
         severity: 'error',
         summary: 'Error',
         detail: 'Revise los campos e intente nuevamente',
       });
-      return
+      return;
     }
     this.isSaveInProgress = true;
     this.bookService.updateBook(this.formBody.value).subscribe({
-      next:()=>{
+      next: () => {
         this.messageService.add({
           severity: 'success',
           summary: 'Guardado',
           detail: 'Libro actualizado correctamente',
         });
         this.isSaveInProgress = false;
-        this.router.navigateByUrl('/')
+        this.router.navigateByUrl('/');
       },
-      error:()=>{
+      error: () => {
         this.isSaveInProgress = false;
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
           detail: 'Revise los campos e intente nuevamente',
         });
-      }
-    })
+      },
+    });
   }
 }
