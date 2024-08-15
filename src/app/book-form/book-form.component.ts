@@ -15,6 +15,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 import { FileSelectEvent } from 'primeng/fileupload';
+import { FileUploadModule } from 'primeng/fileupload';
 
 @Component({
   selector: 'app-book-form',
@@ -28,6 +29,7 @@ import { FileSelectEvent } from 'primeng/fileupload';
     InputNumberModule,
     CardModule,
     ButtonModule,
+    FileUploadModule
   ],
   templateUrl: './book-form.component.html',
   styleUrl: './book-form.component.scss',
@@ -123,7 +125,7 @@ export class BookFormComponent {
       });
   }
 
-  changeImage(id: number) {
+  changeImage() {
     if (!this.SelectedFile) {
       this.messageService.add({
         severity: 'error',
@@ -132,7 +134,7 @@ export class BookFormComponent {
       });
       return;
     }
-    this.bookService.updateBookImage(id, this.SelectedFile).subscribe({
+    this.bookService.updateBookImage(this.formBody.value.id, this.SelectedFile).subscribe({
       next: () => {
         this.messageService.add({
           severity: 'success',

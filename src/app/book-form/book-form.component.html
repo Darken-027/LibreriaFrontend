@@ -18,6 +18,17 @@
         <label for="pricd">Precio</label>
         <p-inputNumber inputId="integeronly" formControlName="price" />
       </div>
+      <div class="field flex flex-column gap-1">
+        <p-fileUpload 
+          mode="basic" 
+          chooseLabel="Choose" 
+          chooseIcon="pi pi-upload"
+          name="demo[]" 
+          [customUpload]="true" 
+          accept="image/*" 
+          maxFileSize="1000000" 
+          (onSelect)="onFileSelected($event)" />
+      </div>
       <div class="flex gap-2">
         <p-button label="Guardar" [loading]="isSaveInProgress" type="submit" />
       </div>
