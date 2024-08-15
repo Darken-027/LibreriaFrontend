@@ -24,7 +24,7 @@ export class BookService {
 
   createBook(book: Book, image:File): Observable<Book> {
     const formData = new FormData();
-    formData.append('book', JSON.stringify(book));
+    formData.append('book', new Blob([JSON.stringify(book)],{type: 'application/json'}));
     formData.append('file', image);
 
     return this.http.post<Book>(this.apiUrl, formData)
