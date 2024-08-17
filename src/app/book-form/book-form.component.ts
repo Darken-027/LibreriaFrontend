@@ -125,7 +125,8 @@ export class BookFormComponent {
       });
   }
 
-  changeImage() {
+  changeImage(event: FileSelectEvent) {
+    this.SelectedFile = event.files[0];
     if (!this.SelectedFile) {
       this.messageService.add({
         severity: 'error',
