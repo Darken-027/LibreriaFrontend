@@ -29,7 +29,7 @@ import { FileUploadModule } from 'primeng/fileupload';
     InputNumberModule,
     CardModule,
     ButtonModule,
-    FileUploadModule
+    FileUploadModule  
   ],
   templateUrl: './book-form.component.html',
   styleUrl: './book-form.component.scss',
@@ -156,7 +156,6 @@ export class BookFormComponent {
   }
 
   //UPDATE
-
   updateBook() {
     if (this.formBody.invalid) {
       this.messageService.add({

@@ -3,5 +3,5 @@ export interface Image{
     name:string;
     imageUrl:string;
     imageId:string;
-    image?:Image;
+    
 }
