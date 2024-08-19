@@ -24,7 +24,7 @@ export class HomeComponent {
     this.getALlBooks()
   }
   getALlBooks(){
-    this.bookService.getBooks().subscribe(data=>{
+    this.bookService.getBooks().subscribe((data) => {
       this.books = data;
     });
   }

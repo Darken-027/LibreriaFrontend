@@ -1,4 +1,4 @@
-import { Image } from "primeng/image";
+import { Image } from "./image";
 
 export interface Book{
     id: number;
